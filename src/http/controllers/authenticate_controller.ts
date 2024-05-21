@@ -1,0 +1,33 @@
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+import { AuthenticateService } from '@/services/authenticate'
+import { UserAlreadyExistsError } from '@/services/erros/user_already_exists_error'
+
+export class AuthenticateController {
+  constructor(private AuthenticateService: AuthenticateService) {}
+
+  async authenticate(request: FastifyRequest, reply: FastifyReply) {
+    const authenticateBodySchema = z
+      .object({
+        email: z.string().email(),
+        password: z.string().min(6),
+      })
+      .strict()
+
+    const { email, password } = authenticateBodySchema.parse(request.body)
+
+    try {
+      await this.AuthenticateService.execute({
+        email,
+        password,
+      })
+    } catch (error) {
+      if (error instanceof UserAlreadyExistsError) {
+        return reply.status(400).send({ message: error.message })
+      }
+      throw error
+    }
+
+    reply.status(200).send()
+  }
+}
