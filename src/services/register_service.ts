@@ -2,6 +2,7 @@ import { UsersRepository } from '@/repositories/user_repository'
 import { hash } from 'bcryptjs'
 import { UserAlreadyExistsError } from './erros/user_already_exists_error'
 import { User } from '@prisma/client'
+import { injectable, inject } from 'tsyringe'
 
 interface RegisterServiceRequest {
   name: string
@@ -13,8 +14,11 @@ interface RegisterServiceReponse {
   user: User
 }
 
+@injectable()
 export class RegisterService {
-  constructor(private userRepository: UsersRepository) {}
+  constructor(
+    @inject('UsersRepository') private userRepository: UsersRepository,
+  ) {}
 
   async create({
     name,

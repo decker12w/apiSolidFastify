@@ -2,6 +2,7 @@ import { UsersRepository } from '@/repositories/user_repository'
 import { User } from '@prisma/client'
 import { InvalidCredentialsError } from './erros/invalid_credentials_error'
 import { compare } from 'bcryptjs'
+import { inject, injectable } from 'tsyringe'
 
 interface AuthenticateRequest {
   email: string
@@ -12,8 +13,11 @@ interface AuthenticateReponse {
   user: User
 }
 
+@injectable()
 export class AuthenticateService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    @inject('UsersRepository') private usersRepository: UsersRepository,
+  ) {}
 
   async execute({
     email,

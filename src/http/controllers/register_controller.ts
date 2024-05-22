@@ -2,9 +2,12 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { RegisterService } from '@/services/register_service'
 import { UserAlreadyExistsError } from '@/services/erros/user_already_exists_error'
-
+import { inject, injectable } from 'tsyringe'
+@injectable()
 export class RegisterController {
-  constructor(private RegisterService: RegisterService) {}
+  constructor(
+    @inject('RegisterService') private RegisterService: RegisterService,
+  ) {}
 
   async register(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z

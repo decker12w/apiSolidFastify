@@ -1,10 +1,15 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { AuthenticateService } from '@/services/authenticate'
+import { AuthenticateService } from '@/services/authenticate_service'
 import { UserAlreadyExistsError } from '@/services/erros/user_already_exists_error'
+import { injectable, inject } from 'tsyringe'
 
+@injectable()
 export class AuthenticateController {
-  constructor(private AuthenticateService: AuthenticateService) {}
+  constructor(
+    @inject('AuthenticateService')
+    private AuthenticateService: AuthenticateService,
+  ) {}
 
   async authenticate(request: FastifyRequest, reply: FastifyReply) {
     const authenticateBodySchema = z

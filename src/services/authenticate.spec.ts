@@ -1,6 +1,6 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in_memory_users_repository'
 import { describe, expect, it } from 'vitest'
-import { AuthenticateService } from './authenticate'
+import { AuthenticateService } from './authenticate_service'
 import { faker } from '@faker-js/faker'
 import { User } from '@prisma/client'
 import { hash } from 'bcryptjs'
