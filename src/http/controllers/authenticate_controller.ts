@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { AuthenticateService } from '@/services/authenticate_service'
-import { UserAlreadyExistsError } from '@/services/erros/user_already_exists_error'
+import { UserAlreadyExistsError } from '@/services/errors/user_already_exists_error'
 import { injectable, inject } from 'tsyringe'
 
 @injectable()

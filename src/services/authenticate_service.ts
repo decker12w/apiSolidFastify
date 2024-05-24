@@ -1,6 +1,6 @@
 import { UsersRepository } from '@/repositories/user_repository'
 import { User } from '@prisma/client'
-import { InvalidCredentialsError } from './erros/invalid_credentials_error'
+import { InvalidCredentialsError } from './errors/invalid_credentials_error'
 import { compare } from 'bcryptjs'
 import { inject, injectable } from 'tsyringe'
 

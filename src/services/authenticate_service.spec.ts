@@ -1,16 +1,22 @@
+import 'reflect-metadata'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in_memory_users_repository'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { AuthenticateService } from './authenticate_service'
 import { faker } from '@faker-js/faker'
 import { User } from '@prisma/client'
 import { hash } from 'bcryptjs'
-import { InvalidCredentialsError } from './erros/invalid_credentials_error'
+import { InvalidCredentialsError } from './errors/invalid_credentials_error'
+
+let usersRepository: InMemoryUsersRepository
+let sut: AuthenticateService
 
 describe('Authenticate Service', () => {
-  it('should authenticate', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const sut = new AuthenticateService(usersRepository)
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository()
+    sut = new AuthenticateService(usersRepository)
+  })
 
+  it('should authenticate', async () => {
     const userMock: Omit<User, 'id' | 'created_at'> = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -32,9 +38,6 @@ describe('Authenticate Service', () => {
   })
 
   it('should not be able to authenticate with invalid email', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const sut = new AuthenticateService(usersRepository)
-
     const userMock: Omit<User, 'id' | 'created_at'> = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -50,9 +53,6 @@ describe('Authenticate Service', () => {
   })
 
   it('should not be able to authenticate with wrong password', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const sut = new AuthenticateService(usersRepository)
-
     const userMock: Omit<User, 'id' | 'created_at'> = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
