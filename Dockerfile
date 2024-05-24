@@ -27,8 +27,6 @@ COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/package-lock.json ./package-lock.json
 COPY --from=build /usr/src/app/.env .env
 
-
-ENV NODE_ENV production
 EXPOSE 3000
 
 CMD [ "npm" ,"run","start" ]
