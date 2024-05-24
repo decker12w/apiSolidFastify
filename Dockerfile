@@ -13,7 +13,7 @@ RUN npx prisma generate
 RUN npm run build
 
 #Fase de teste
-
+RUN npm run test
 RUN npm ci --only=production && npm cache clean --force
 
 # Fase de produção
