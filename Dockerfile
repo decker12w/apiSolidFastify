@@ -11,8 +11,6 @@ COPY . .
 
 RUN npx prisma generate
 RUN npm run build
-#Fase de teste
-#RUN npm run test
 RUN npm ci --only=production && npm cache clean --force
 
 # Fase de produção
@@ -25,7 +23,7 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/prisma ./prisma
 COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/package-lock.json ./package-lock.json
-COPY --from=build /usr/src/app/.env .env
+COPY --from=build /usr/src/app/.env ./.env
 
 EXPOSE 3000
 
