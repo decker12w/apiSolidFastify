@@ -6,7 +6,7 @@ import { ZodError } from 'zod'
 import { env } from './env'
 
 export const app = fastify()
-console.log(env.NODE_ENV === 'dev' ? env.NODE_ENV : null)
+console.log(env.NODE_ENV ? env.NODE_ENV : null)
 app.register(appRoutes)
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
