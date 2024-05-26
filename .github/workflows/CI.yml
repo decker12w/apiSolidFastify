@@ -41,9 +41,12 @@ jobs:
         with:
           push: true
           tags: josemaia123/test:${{ steps.generate_tag.outputs.sha }},josemaia123/test:latest
+    if:
+      failure()
       #- name: Build docker image
       #  run: docker build -t josemaia123/test:${{ steps.generate_tag.outputs.sha }} .
 
       #- name: Push docker image
       #  run: |
       #    docker push josemaia123/test:${{ steps.generate_tag.outputs.sha }}
+#https://resources.github.com/learn/pathways/automation/essentials/application-testing-with-github-actions/
