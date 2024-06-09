@@ -1,5 +1,6 @@
 import { GymsRepository } from '@/repositories/gyms_repository'
 import { Gym } from '@prisma/client'
+import { inject, injectable } from 'tsyringe'
 
 interface CreateGymServiceRequest {
   title: string
@@ -13,8 +14,11 @@ interface CreateGymServiceResponse {
   gym: Gym
 }
 
+@injectable()
 export class CreateGymService {
-  constructor(private gymsRepository: GymsRepository) {}
+  constructor(
+    @inject('GymsRepository') private gymsRepository: GymsRepository,
+  ) {}
 
   async execute({
     title,

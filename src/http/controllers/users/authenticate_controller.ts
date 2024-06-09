@@ -22,9 +22,22 @@ export class AuthenticateController {
     const { email, password } = authenticateBodySchema.parse(request.body)
 
     try {
-      await this.AuthenticateService.execute({
+      const { user } = await this.AuthenticateService.execute({
         email,
         password,
+      })
+
+      const token = await reply.jwtSign(
+        {},
+        {
+          sign: {
+            sub: user.id,
+          },
+        },
+      )
+
+      return reply.status(200).send({
+        token,
       })
     } catch (error) {
       if (error instanceof UserAlreadyExistsError) {
@@ -32,7 +45,5 @@ export class AuthenticateController {
       }
       throw error
     }
-
-    reply.status(200).send()
   }
 }

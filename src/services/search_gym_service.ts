@@ -2,15 +2,14 @@ import { inject, injectable } from 'tsyringe'
 import { Gym } from '@prisma/client'
 import { GymsRepository } from '@/repositories/gyms_repository'
 
-interface searchGymsServiceRequest {
+interface SearchGymsServiceRequest {
   query: string
   page: number
 }
 
-interface searchGymsServiceResponse {
+interface SearchGymsServiceResponse {
   gyms: Gym[]
 }
-
 @injectable()
 export class SearchGymsService {
   constructor(
@@ -21,8 +20,11 @@ export class SearchGymsService {
   async execute({
     query,
     page,
-  }: searchGymsServiceRequest): Promise<searchGymsServiceResponse> {
+  }: SearchGymsServiceRequest): Promise<SearchGymsServiceResponse> {
     const gyms = await this.gymsRepository.searchMany(query, page)
-    return { gyms }
+
+    return {
+      gyms,
+    }
   }
 }
